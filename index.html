@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#10180f">
+<meta name="description" content="Grassed is an unofficial Minecraft launcher by Mobinhrr. One launcher, every way to play.">
+<title>Grassed — Minecraft, your way.</title>
+<style>
+:root {
+  --site-primary: #a5e65c;
+  --site-on-primary: #17220d;
+  --site-secondary: #24351e;
+  --site-on-secondary: #e5f3d8;
+  --site-background: #10180f;
+  --site-on-background: #f2f6ed;
+  --site-font-body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --site-font-heading: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --site-heading-scale: 1;
+  --site-spacing-scale: 1;
+  --site-radius-scale: 1;
+  --site-decoration-opacity: 1;
+  color-scheme: light dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; font-family: var(--site-font-body); background: var(--site-background); color: var(--site-on-background); }
+#app { min-height: 100vh; width: 100%; border-radius: 0; overflow: hidden; background-color: light-dark(var(--site-background), var(--site-background)); color: var(--site-on-background); position: relative; }
+a { color: inherit; text-decoration: none; }
+button, a { -webkit-tap-highlight-color: transparent; }
+.wrap { width: min(1160px, calc(100% - 48px)); margin: 0 auto; }
+.nav { height: 82px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #ffffff12; position:relative; z-index:2; }
+.brand { display:flex; align-items:center; gap:11px; font-weight:850; letter-spacing:-.055em; font-size:24px; }
+.logo { width:36px; height:36px; display:grid; place-items:center; border-radius:12px; background:var(--site-primary); color:var(--site-on-primary); box-shadow:0 0 32px #a5e65c35; }
+.logo svg { width:23px; height:23px; }
+.navlinks { display:flex; gap:30px; align-items:center; color:#c2cdbb; font-size:13px; font-weight:650; }
+.navlinks a:hover { color:var(--site-primary); }
+.nav-cta { border:1px solid #a5e65c66; color:var(--site-primary)!important; padding:11px 16px; border-radius:12px; }
+.menu { display:none; background:transparent; color:inherit; border:0; font-size:24px; }
+.hero { padding:92px 0 86px; position:relative; }
+.hero:before { content:""; position:absolute; width:560px; height:560px; border-radius:50%; background:radial-gradient(circle,#8acb4530 0,transparent 68%); top:-150px; left:50%; transform:translateX(-50%); pointer-events:none; opacity:var(--site-decoration-opacity); }
+.hero-inner { position:relative; display:grid; grid-template-columns:1.05fr .95fr; gap:55px; align-items:center; }
+.eyebrow { display:inline-flex; align-items:center; gap:8px; border:1px solid #a5e65c40; background:#a5e65c0d; color:#c7f29a; padding:8px 12px; border-radius:999px; font-size:11px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
+.pulse { width:7px; height:7px; background:var(--site-primary); border-radius:50%; box-shadow:0 0 12px var(--site-primary); }
+h1,h2,h3 { font-family:var(--site-font-heading); }
+h1 { font-size:clamp(50px,7vw,82px); line-height:.99; letter-spacing:-.075em; margin:25px 0 22px; font-weight:900; }
+.green { color:var(--site-primary); }
+.lead { max-width:520px; color:#b5c1ad; font-size:17px; line-height:1.75; }
+.actions { display:flex; gap:12px; flex-wrap:wrap; margin-top:30px; }
+.btn { display:inline-flex; align-items:center; justify-content:center; gap:10px; padding:15px 20px; border-radius:13px; font-size:14px; font-weight:800; transition:transform .18s,background .18s; border:1px solid transparent; cursor:pointer; }
+.btn:hover { transform:translateY(-2px); }
+.btn-primary { background:var(--site-primary); color:var(--site-on-primary); box-shadow:0 10px 35px #a5e65c25; }
+.btn-secondary { border-color:#ffffff24; background:#ffffff08; color:#edf4e7; }
+.meta { display:flex; gap:18px; flex-wrap:wrap; margin-top:24px; color:#82907b; font-size:11px; }
+.meta span { display:flex; align-items:center; gap:7px; }
+.mock-wrap { position:relative; }
+.glow { position:absolute; inset:12% 4%; background:#a5e65c22; filter:blur(65px); border-radius:50%; opacity:var(--site-decoration-opacity); }
+.mock { position:relative; border:1px solid #ffffff20; border-radius:19px; background:#171f16; box-shadow:0 35px 90px #0009; overflow:hidden; transform:rotate(1.3deg); }
+.mock-top { height:42px; border-bottom:1px solid #ffffff12; display:flex; align-items:center; padding:0 15px; gap:6px; color:#87947e; font-size:10px; }
+.dot { width:7px; height:7px; border-radius:50%; background:#56604f; }
+.mock-name { margin-left:8px; }
+.mock-body { display:grid; grid-template-columns:105px 1fr; min-height:330px; }
+.mock-side { background:#111810; border-right:1px solid #ffffff0e; padding:17px 10px; }
+.side-item { padding:9px 8px; color:#788572; font-size:9px; border-radius:7px; margin-bottom:4px; }
+.side-item.active { color:#c8f49d; background:#a5e65c18; }
+.mock-main { padding:20px; }
+.mock-greeting { font-size:17px; font-weight:850; letter-spacing:-.04em; }
+.mock-sub { font-size:9px; color:#8a9784; margin-top:4px; }
+.world { margin-top:17px; height:120px; border-radius:11px; background:linear-gradient(180deg,#536f4a 0%,#263d2a 54%,#1a2b21 100%); position:relative; overflow:hidden; }
+.world:before { content:""; position:absolute; left:-5%; right:-5%; height:65px; bottom:-20px; background:#18291d; transform:skewY(-8deg); box-shadow:0 -18px 0 #35543a,0 -34px 0 #476b43; }
+.world:after { content:"✦  GRASSED WORLD"; position:absolute; top:14px; left:14px; color:#efffe4; font-size:8px; letter-spacing:.16em; font-weight:900; }
+.world-pill { position:absolute; right:12px; bottom:12px; background:#111b13d9; border:1px solid #ffffff22; padding:6px 8px; border-radius:6px; color:#d8edc8; font-size:8px; z-index:1; }
+.mock-row { display:flex; justify-content:space-between; align-items:center; margin-top:15px; }
+.mock-version { font-size:10px; color:#aab5a2; }
+.mock-play { background:var(--site-primary); color:#18230e; border-radius:7px; padding:9px 22px; font-weight:900; font-size:9px; }
+.mock-foot { display:flex; gap:8px; margin-top:15px; }
+.mini { flex:1; border:1px solid #ffffff12; border-radius:8px; padding:9px; color:#a7b39e; font-size:8px; }
+.mini b { display:block; color:#e6f1df; font-size:12px; margin-bottom:3px; }
+.trust { border-top:1px solid #ffffff10; border-bottom:1px solid #ffffff10; padding:22px 0; background:#ffffff03; }
+.trust-inner { display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap; color:#87947f; font-size:11px; font-weight:750; letter-spacing:.08em; text-transform:uppercase; }
+.trust-inner span { display:flex; align-items:center; gap:8px; }
+section { padding:100px 0; }
+.section-kicker { color:var(--site-primary); font-size:11px; letter-spacing:.17em; font-weight:900; text-transform:uppercase; }
+.section-title { font-size:clamp(34px,4.8vw,52px); line-height:1.04; letter-spacing:-.065em; margin:15px 0; }
+.section-desc { color:#aab7a2; max-width:590px; line-height:1.7; font-size:15px; }
+.features-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:42px; }
+.feature { background:linear-gradient(145deg,#1b2819,#141d13); border:1px solid #ffffff12; border-radius:16px; padding:25px; min-height:205px; transition:transform .2s,border-color .2s; }
+.feature:hover { transform:translateY(-4px); border-color:#a5e65c66; }
+.feature-icon { width:39px; height:39px; display:grid; place-items:center; border-radius:12px; background:#a5e65c17; color:var(--site-primary); font-size:19px; }
+.feature h3 { margin:20px 0 8px; font-size:17px; letter-spacing:-.03em; }
+.feature p { margin:0; color:#9ba995; font-size:13px; line-height:1.65; }
+.band { background:#192518; border-top:1px solid #ffffff0d; border-bottom:1px solid #ffffff0d; }
+.split { display:grid; grid-template-columns:1fr 1fr; align-items:center; gap:60px; }
+.stack { display:grid; gap:12px; }
+.stack-card { display:flex; gap:15px; align-items:flex-start; background:#10190f; border:1px solid #ffffff12; border-radius:13px; padding:17px; }
+.stack-icon { color:var(--site-primary); font-size:20px; }
+.stack-card b { display:block; font-size:13px; margin-bottom:5px; }
+.stack-card p { margin:0; color:#96a38f; font-size:12px; line-height:1.6; }
+.download { background:radial-gradient(ellipse at 50% 0%,#8fce3d20,transparent 65%); text-align:center; }
+.download .section-desc { margin:0 auto; }
+.download-grid { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:16px; max-width:760px; margin:40px auto 0; text-align:left; }
+.download-card { border:1px solid #ffffff20; background:#192318; border-radius:18px; padding:25px; }
+.os { display:flex; align-items:center; gap:12px; }
+.os-symbol { width:45px; height:45px; display:grid; place-items:center; border-radius:12px; background:#ffffff0d; font-size:24px; }
+.os h3 { margin:0; font-size:19px; }
+.os small { display:block; color:#91a08a; margin-top:4px; font-size:11px; }
+.download-card p { color:#9daa96; font-size:12px; line-height:1.6; min-height:40px; }
+.download-card .btn { width:100%; }
+.download-card .btn[aria-disabled="true"] { opacity:.62; cursor:not-allowed; }
+.download-note { margin-top:19px; color:#7f8d77; font-size:11px; line-height:1.7; }
+.faq { max-width:780px; margin:42px auto 0; border-top:1px solid #ffffff16; }
+details { border-bottom:1px solid #ffffff16; padding:18px 0; }
+summary { cursor:pointer; list-style:none; font-weight:750; font-size:14px; display:flex; justify-content:space-between; gap:15px; }
+summary::-webkit-details-marker { display:none; }
+summary:after { content:"+"; color:var(--site-primary); font-size:19px; line-height:14px; }
+details[open] summary:after { content:"−"; }
+details p { color:#9eac97; font-size:13px; line-height:1.7; margin:13px 25px 0 0; }
+footer { border-top:1px solid #ffffff12; padding:28px 0; color:#82907b; font-size:11px; }
+.footer-inner { display:flex; justify-content:space-between; align-items:center; gap:20px; flex-wrap:wrap; }
+.footer-brand { display:flex; align-items:center; gap:9px; color:#e9f1e3; font-size:14px; font-weight:850; }
+.toast { position:fixed; bottom:22px; left:50%; transform:translate(-50%,20px); background:#e6f4da; color:#18220f; padding:12px 18px; border-radius:12px; font-size:12px; font-weight:750; opacity:0; pointer-events:none; transition:.25s; z-index:10; box-shadow:0 10px 40px #0008; }
+.toast.show { opacity:1; transform:translate(-50%,0); }
+@media (max-width:800px) { .hero-inner,.split { grid-template-columns:1fr; gap:40px; } .hero { padding:65px 0; } .mock-wrap { max-width:540px; margin:0 auto; width:100%; } .features-grid { grid-template-columns:repeat(2,1fr); } section { padding:75px 0; } }
+@media (max-width:560px) { .wrap { width:min(100% - 32px,1160px); } .nav { height:70px; } .navlinks { display:none; position:absolute; top:69px; left:0; right:0; background:#111a10; padding:18px; border:1px solid #ffffff16; border-radius:12px; flex-direction:column; align-items:stretch; gap:18px; } .navlinks.open { display:flex; } .menu { display:block; } h1 { font-size:53px; } .lead { font-size:15px; } .features-grid,.download-grid { grid-template-columns:1fr; } .feature { min-height:auto; } .mock-body { grid-template-columns:82px 1fr; } .mock-main { padding:14px; } .trust-inner { justify-content:center; } }
+</style>
+</head>
+<body>
+<div id="app">
+<header class="wrap nav">
+  <a class="brand" href="#home" aria-label="Grassed home"><span class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V10M12 15c-5 0-8-3-8-8 5 0 8 3 8 8ZM12 12c0-5 3-8 8-8 0 5-3 8-8 8Z"/></svg></span>grassed<span class="green">.</span></a>
+  <nav class="navlinks" id="navlinks"><a href="#features">Features</a><a href="#how">Why Grassed</a><a href="#download">Downloads</a><a href="#faq">FAQ</a><a class="nav-cta" href="#download">Get Grassed ↗</a></nav>
+  <button class="menu" id="menu" aria-label="Toggle navigation">☰</button>
+</header>
+<main>
+<section class="hero" id="home"><div class="wrap hero-inner">
+  <div><div class="eyebrow"><span class="pulse"></span> Your game. Your rules.</div>
+    <h1>Minecraft,<br><span class="green">your way.</span></h1>
+    <p class="lead">Meet Grassed — an unofficial Minecraft launcher by Mobinhrr. Bring your accounts, versions, mods, and worlds together in one clean place.</p>
+    <div class="actions"><a class="btn btn-primary" href="#download">↓ &nbsp; Download Grassed</a><a class="btn btn-secondary" href="#features">Explore features <span>↘</span></a></div>
+    <div class="meta"><span>✦ Multi-account ready</span><span>✦ Mod-friendly</span><span>✦ Windows available</span></div>
+  </div>
+  <div class="mock-wrap"><div class="glow"></div><div class="mock"><div class="mock-top"><i class="dot"></i><i class="dot"></i><i class="dot"></i><span class="mock-name">grassed launcher</span></div><div class="mock-body"><aside class="mock-side"><div class="side-item active">◈ &nbsp; Home</div><div class="side-item">▦ &nbsp; Instances</div><div class="side-item">♧ &nbsp; Mods</div><div class="side-item">♙ &nbsp; Accounts</div><div class="side-item">⚙ &nbsp; Settings</div></aside><div class="mock-main"><div class="mock-greeting">Ready to play?</div><div class="mock-sub">Your next adventure is one click away.</div><div class="world"><span class="world-pill">SURVIVAL · 1.21.x</span></div><div class="mock-row"><span class="mock-version">Minecraft 1.21.4 · Fabric</span><span class="mock-play">▶ PLAY</span></div><div class="mock-foot"><div class="mini"><b>03</b>Accounts</div><div class="mini"><b>12</b>Instances</div><div class="mini"><b>1.21.4</b>Selected</div></div></div></div></div></div>
+</div></section>
+<div class="trust"><div class="wrap trust-inner"><span>✳ One-click mod setup</span><span>◉ Multiple accounts</span><span>▤ Version control</span><span>⌘ Separate instances</span></div></div>
+<section id="features"><div class="wrap"><div class="section-kicker">Made to make it easy</div><h2 class="section-title">Everything you need.<br><span class="green">Nothing in your way.</span></h2><p class="section-desc">Skip the launcher juggling. Grassed brings the tools you use into one simple, flexible experience.</p>
+<div class="features-grid">
+  <article class="feature"><div class="feature-icon">♙</div><h3>Multi-account management</h3><p>Keep your supported accounts together and switch between profiles without the hassle.</p></article>
+  <article class="feature"><div class="feature-icon">▤</div><h3>Full version selector</h3><p>Browse and choose the Minecraft versions you want, from classic releases to newer builds.</p></article>
+  <article class="feature"><div class="feature-icon">✳</div><h3>One-click mod installer</h3><p>Get your modded setup moving with a streamlined mod installation experience.</p></article>
+  <article class="feature"><div class="feature-icon">▣</div><h3>Instances</h3><p>Keep separate game setups, versions, and mod collections organized independently.</p></article>
+  <article class="feature"><div class="feature-icon">⌘</div><h3>Flexible sign-in</h3><p>Designed around Microsoft, Authlib, and offline/cracked account options where permitted.</p></article>
+  <article class="feature"><div class="feature-icon">⚙</div><h3>Your setup, your way</h3><p>A launcher experience built to give you more control over how you organize and play.</p></article>
+</div></div></section>
+<section class="band" id="how"><div class="wrap split"><div><div class="section-kicker">Less setup. More play.</div><h2 class="section-title">Your Minecraft<br>life, <span class="green">organized.</span></h2><p class="section-desc">Whether you jump between modpacks, keep multiple game profiles, or just want a straightforward way to launch, Grassed is designed to keep it all close at hand.</p><div class="actions"><a class="btn btn-primary" href="#download">Find your download ↓</a></div></div>
+<div class="stack"><div class="stack-card"><span class="stack-icon">♙</span><div><b>Bring your accounts together</b><p>Manage multiple sign-in profiles in one launcher instead of starting from scratch each time.</p></div></div><div class="stack-card"><span class="stack-icon">✳</span><div><b>Build a modded setup faster</b><p>Discover a simpler workflow for installing mods and getting your instance ready.</p></div></div><div class="stack-card"><span class="stack-icon">▤</span><div><b>Keep every instance separate</b><p>Organize different versions and configurations without mixing up your game folders.</p></div></div></div>
+</div></section>
+<section class="download" id="download"><div class="wrap"><div class="section-kicker">Get in the game</div><h2 class="section-title">Ready when <span class="green">you are.</span></h2><p class="section-desc">Choose your platform and get started with Grassed.</p>
+<div class="download-grid">
+  <article class="download-card"><div class="os"><div class="os-symbol">⊞</div><div><h3>Windows</h3><small>Windows 10 / 11 · 64-bit</small></div></div><p>Download the latest Grassed release for your Windows PC.</p><a class="btn btn-primary" href="https://github.com/Mobinhrr/Grassed/releases" target="_blank" rel="noopener noreferrer">↓ &nbsp; Download for Windows</a></article>
+  <article class="download-card"><div class="os"><div class="os-symbol">🐧</div><div><h3>Linux</h3><small>Linux · 64-bit</small></div></div><p>The Linux build is not available yet. Check back when a release is ready.</p><span class="btn btn-secondary" aria-disabled="true">Linux coming soon</span></article>
+</div>
+<p class="download-note">Windows downloads open the Grassed GitHub Releases page. Linux support is coming soon.<br>Grassed is an unofficial third-party launcher and is not affiliated with or endorsed by Mojang or Microsoft.</p>
+</div></section>
+<section id="faq"><div class="wrap" style="text-align:center"><div class="section-kicker">Good to know</div><h2 class="section-title">A few quick <span class="green">answers.</span></h2><div class="faq" style="text-align:left">
+<details><summary>What is Grassed?</summary><p>Grassed is presented here as an unofficial Minecraft launcher by Mobinhrr, designed to bring account management, version selection, mods, and instances into one app.</p></details>
+<details><summary>Which platforms are supported?</summary><p>Windows downloads are available from the Grassed GitHub Releases page. A Linux build is coming soon.</p></details>
+<details><summary>Which login methods are supported?</summary><p>The planned feature set includes Microsoft, Authlib, and offline/cracked account modes. Use only accounts and access methods you are authorized to use, and follow the applicable game terms.</p></details>
+<details><summary>Is Grassed an official Minecraft product?</summary><p>No. Grassed is an independent, unofficial launcher concept and is not affiliated with, endorsed by, or sponsored by Mojang or Microsoft. Minecraft is a trademark of Microsoft Corporation.</p></details>
+</div></div></section>
+</main>
+<footer><div class="wrap footer-inner"><div class="footer-brand"><span class="logo" style="width:27px;height:27px;border-radius:9px">✳</span> grassed.</div><span>Made by Mobinhrr · Unofficial Minecraft launcher</span><a href="#home">Back to top ↑</a></div></footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+</div>
+<script>
+const menu = document.getElementById('menu');
+const nav = document.getElementById('navlinks');
+menu.addEventListener('click', () => nav.classList.toggle('open'));
+nav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => nav.classList.remove('open')));
+</script>
+</body>
+</html>
